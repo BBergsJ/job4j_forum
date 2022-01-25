@@ -6,41 +6,44 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.User;
 import ru.job4j.forum.repository.ForumMem;
+import ru.job4j.forum.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
-    private ForumMem forumMem;
+    private final UserRepository users;
 
-    public UserService(ForumMem forumMem) {
-        this.forumMem = forumMem;
+    public UserService(UserRepository users) {
+        this.users = users;
     }
 
     public boolean create(User user) {
-        return forumMem.addUser(user);
+        boolean rsl = false;
+        try {
+            users.save(user);
+            rsl = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rsl;
     }
 
     public List<User> getAll() {
-        return forumMem.getAllUsers();
+        List<User> rsl = new ArrayList<>();
+        users.findAll().forEach(rsl::add);
+        return rsl;
     }
 
     public Optional<User> findUserById(int id) {
-        return forumMem.findUserById(id);
+        return users.findById(id);
     }
 
     public Optional<User> findUserByName(String name) {
-        return forumMem.findUserByName(name);
+        return users.findByUsername(name);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<User> user = forumMem.findUserByName(s);
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return user.get();
-    }
 }

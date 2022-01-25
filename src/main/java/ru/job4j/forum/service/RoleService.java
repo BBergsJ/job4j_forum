@@ -2,25 +2,28 @@ package ru.job4j.forum.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.Roles;
-import ru.job4j.forum.repository.ForumMem;
+import ru.job4j.forum.repository.RoleRepository;
 
-import javax.management.relation.Role;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleService {
 
-    private ForumMem forumMem;
+    private final RoleRepository repositories;
 
-    public RoleService(ForumMem forumMem) {
-        this.forumMem = forumMem;
+    public RoleService(RoleRepository repositories) {
+        this.repositories = repositories;
     }
 
     public List<Roles> getAll() {
-        return forumMem.getAllRoles();
+        List<Roles> rsl = new ArrayList<>();
+        repositories.findAll().forEach(rsl::add);
+        return rsl;
     }
 
-    public Roles findRoleById(int id) {
-        return findRoleById(id);
+    public Optional<Roles> findRoleById(int id) {
+        return repositories.findById(id);
     }
 }

@@ -2,13 +2,17 @@ package ru.job4j.forum.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-public class Roles implements GrantedAuthority {
+@Entity
+@Table(name = "roles")
+public class Roles {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String roleName;
-    private Set<User> users;
 
     public static Roles of(String roleName) {
         Roles role = new Roles();
@@ -32,14 +36,6 @@ public class Roles implements GrantedAuthority {
         this.roleName = roleName;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -57,8 +53,4 @@ public class Roles implements GrantedAuthority {
         return Objects.hash(id);
     }
 
-    @Override
-    public String getAuthority() {
-        return getRoleName();
-    }
 }

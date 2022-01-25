@@ -18,7 +18,7 @@
 <div class="card mx-auto" style="width: 30%">
 
     <div class="card-header bg-success text-white" style="font-size: large">
-        Вход
+        Регистрация
     </div>
 
     <div class="card-body">

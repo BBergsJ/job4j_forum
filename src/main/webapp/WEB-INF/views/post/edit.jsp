@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<form  action="<c:url value='/saveOrUpdate?id=${post.id}'/>" method='POST'>
+<form action="<c:url value='/saveOrUpdate?id=${post.id}'/>" method='POST'>
     <table>
         <tr>
             <td>Тема:</td>
@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <td>Описание:</td>
-            <textarea class="form-control" rows="3" id="description">
+            <textarea class="form-control" rows="3" name="description">
                 <c:out value="${post.description}"/>
             </textarea>
         </tr>
