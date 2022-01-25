@@ -44,7 +44,7 @@ class IndexControlTest {
     @Test
     @WithMockUser
     public void shouldReturnDefaultMessageWhenEdit() throws Exception {
-        this.mockMvc.perform(get("/edit").param("id", "1"))
+        this.mockMvc.perform(get("/edit"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("post/edit"));
