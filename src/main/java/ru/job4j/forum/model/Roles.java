@@ -12,11 +12,11 @@ public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String roleName;
+    private String name;
 
     public static Roles of(String roleName) {
         Roles role = new Roles();
-        role.roleName = roleName;
+        role.name = roleName;
         return role;
     }
 
@@ -29,11 +29,11 @@ public class Roles {
     }
 
     public String getRoleName() {
-        return roleName;
+        return name;
     }
 
     public void setRoleName(String roleName) {
-        this.roleName = roleName;
+        this.name = roleName;
     }
 
     @Override
