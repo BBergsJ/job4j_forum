@@ -9,10 +9,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import ru.job4j.forum.Main;
+import ru.job4j.forum.model.Post;
+import ru.job4j.forum.service.PostService;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +30,9 @@ class IndexControlTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private PostService posts;
 
     @Test
     @WithMockUser
@@ -44,7 +55,9 @@ class IndexControlTest {
     @Test
     @WithMockUser
     public void shouldReturnDefaultMessageWhenEdit() throws Exception {
-        this.mockMvc.perform(get("/edit"))
+        when(posts.findPostById(0)).thenReturn(Optional.of(new Post()));
+
+        this.mockMvc.perform(get("/edit").param("id", "0"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("post/edit"));
@@ -53,6 +66,10 @@ class IndexControlTest {
     @Test
     @WithMockUser
     public void shouldReturnDefaultMessageWhenPost() throws Exception {
+        Post post = Post.of("Куплю ладу-грант. Дорого.", "Тестовый текст");
+        post.setId(1);
+        when(posts.findPostById(1)).thenReturn(Optional.of(post));
+
         this.mockMvc.perform(get("/post").param("id", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())
