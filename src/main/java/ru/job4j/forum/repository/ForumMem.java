@@ -52,7 +52,7 @@ public class ForumMem {
 
     public boolean addUser(User user) {
         boolean rsl = false;
-        if (findUserByName(user.getUsername()).isEmpty()) {
+        if (findUserByName(user.getUsername()) == null) {
             user.setId(ID_USER.incrementAndGet());
             user.setEnabled(true);
             user.setRole(findRoleById(1));
